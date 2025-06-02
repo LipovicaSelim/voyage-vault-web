@@ -12,7 +12,9 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.1",
     "@tailwindcss/vite": "^4.1.6",
+    "axios": "^1.9.0",
     "react": "^19.1.0",
+    "react-code-input": "^3.10.1",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.56.3",
     "react-redux": "^9.2.0",
@@ -31,6 +33,7 @@
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.6",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }
