@@ -1,7 +1,7 @@
 import React from "react";
-// import SignUpSVG from "../assets/pages/signupimage-png.webp";
-
-// import GoogleButton from "../../components/molecules/GoogleButton.jsx";
+ import SignUpSVG from "../assets/signupimage-png.webp";
+import planeImage from "../assets/qyshe.webp";
+ import GoogleButton from "../../src/components/molecules/GoogleButton";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -34,16 +34,18 @@ function Login() {
           <div className="h-[35%] relative flex justify-center">
             <img
               loading="lazy"
-              src="{SignUpSVG}"
+              src={SignUpSVG}
               alt="man-looking"
               className="-[70%] relative opacity-[82%] object-contain"
             />
-            <div className="relative">
+            
+          </div>
+          <div className="relative">
               <h1 className="text-4xl font-semibold font-inter text-[#3a260e]">
                 Login
               </h1>
             </div>
-          </div>
+            <GoogleButton buttonText="Sign In with Google"/>
           {/* Dividing part with the two borders and the text or in the middle */}
           <div className="BorderswithOrInMiddle flex items-center my-2 w-[80%] justify-center">
             <div className="flex-grow border-t border-[#B2ABAB]"></div>
@@ -82,7 +84,8 @@ function Login() {
               </div>
             </div>
             <div className="mb-2 flex items-center flex-col items-start">
-              <div>
+              <div className="w-full flex justify-between ">
+                <div>
                 <input
                   className="mr-2"
                   size={16}
@@ -110,6 +113,7 @@ function Login() {
                       </a>
 
                 </label>
+                </div>
                 {emailErrors.terms && (
                   <p className="text-red-500 text-sm">{emailErrors.terms.message}</p>
                 )}
@@ -137,8 +141,19 @@ function Login() {
           </form>
         </div>
       </div>
+       {/* Robust parts of design */}
+            <div className="w-full bg-[#E4DCC3] fixed bottom-0 h-[20%] h-max-[200px]"></div>
+            <img
+              src={planeImage}
+              loading="lazy"
+              alt="plane"
+              className="w-[520px] max-w-[90%] fixed top-[110px] left-[50px] opacity-[0.8] "
+            />
     </div>
+
+    
   );
+  
 }
 
 export default Login;
