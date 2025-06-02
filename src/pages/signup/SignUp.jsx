@@ -39,7 +39,9 @@ function SignUp() {
       );
       console.log("Signup response:", response.data);
       // Handle success
-      navigate("/verify-code", { state: { email: data.email } });
+      setEmail(data.email);
+      setStep("code");
+      setResendTimer(30);
     } catch (err) {
       console.error("Signup error:", err.response?.data || err.message);
       if (err.response?.data.message === "User already exists") {
