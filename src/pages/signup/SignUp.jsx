@@ -139,7 +139,7 @@ function SignUp() {
                   loading="lazy"
                   src={SignUpSVG}
                   alt="man-looking"
-                  className="w-[70%] relative opacity-[82%] object-contain"
+                  className="-[70%] relativwe opacity-[82%] object-contain"
                 />
               </div>
               <div className="relative ">
