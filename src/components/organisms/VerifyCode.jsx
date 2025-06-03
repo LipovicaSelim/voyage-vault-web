@@ -5,7 +5,14 @@ import Envelope from "../../assets/envelope-line-icon.svg";
 import ReactCodeInput from "react-code-input";
 import { useNavigate } from "react-router-dom";
 
-function VerifyCode({ email, setStep, resendTimer, setResendTimer, setError }) {
+function VerifyCode({
+  email,
+  setStep,
+  resendTimer,
+  setResendTimer,
+  setError,
+  isSignIn = false,
+}) {
   const {
     control,
     handleSubmit,
@@ -43,27 +50,34 @@ function VerifyCode({ email, setStep, resendTimer, setResendTimer, setError }) {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/verify-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, code: data.code }),
-          credentials: "include",
-        }
-      );
+      const endpoint = isSignIn
+        ? "http://localhost:5000/api/auth/signin-verify"
+        : "http://localhost:5000/api/auth/verify-code";
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code: data.code }),
+        credentials: "include",
+      });
       const result = await response.json();
 
       if (!response.ok)
         throw new Error(result.message || "Verification failed");
 
-      if (result.message === "Sign-up completed successfully") {
-        navigate("../");
+      if (isSignIn) {
+        setTimeout(() => navigate("/"), 2000);
       } else {
-        setStep("failed");
+        if (result.message === "Sign-up completed successfully") {
+          navigate("../");
+        } else {
+          setStep("failed");
+        }
       }
     } catch (error) {
-      console.log("Verification error: ", error.message);
+      console.log(
+        `${isSignIn ? "Sign-in" : "Verification"} error:`,
+        error.message
+      );
       setError(error.message);
       setStep("failed");
     }
@@ -166,7 +180,7 @@ function VerifyCode({ email, setStep, resendTimer, setResendTimer, setError }) {
           hover:bg-teal-600 focus:ring-2 focus:ring-teal-500 hover:cursor-pointer transition duration-150
           [box-shadow:0px_4px_4px_0px_rgba(0,_0,_0,_0.25)]"
         >
-          Confirm Sign-Up
+          {isSignIn ? "Log In" : "Confirm Sign-Up"}
         </button>
       </form>
 
