@@ -4,7 +4,7 @@ import SignUpSVG from "../../assets/signupimage-png.webp";
 import GoogleLogo from "../../assets/google-color-icon.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import VerifyCode from "../../components/organisms/VerifyCode.jsx";
 import SignUpFailed from "../../components/organisms/SignUpFailed.jsx";
 import GoogleButton from "../../components/molecules/GoogleButton.jsx";

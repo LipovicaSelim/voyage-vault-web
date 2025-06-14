@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
 
 @tailwind base;
 @tailwind components;
@@ -14,4 +16,73 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.nav-link:hover {
+  background-color: #44695e;
+}
+
+.nav-link:active {
+  background-color: red;
+}
+
+.new-trip-btn {
+  box-shadow: 0px 8px 8px 0px rgba(52, 106, 255, 0.15);
+}
+
+.new-trip-btn:hover {
+  background-color: #3585b7;
+  cursor: pointer;
+  transform: scale(1.02);
+}
+
+.toggle-btn:hover {
+  cursor: pointer;
+}
+
+.searchbar input {
+  outline: none;
+  background-color: transparent;
+}
+
+.searchbar .CiSearch {
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.searchbar input:focus {
+  outline: blue 1px;
+  z-index: 999;
+  /* background-color: white; */
+}
+
+.LanguageDropdown {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.custom-flag-select button {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.custom-flag-select .flag-select {
+  border: none !important;
+}
+
+.custom-flag-select .flag-select__option {
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
+.custom-flag-select .flag-select__option .flag-select__option__icon,
+.custom-flag-select .flag-select__button .flag-select__flag {
+  border-radius: 50% !important;
+  overflow: hidden;
+}
+
+.custom-flag-select .flag-select__option {
+  padding: 5px 8px;
 }

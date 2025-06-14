@@ -53,9 +53,11 @@ function Login() {
   };
 
   const navigate = useNavigate();
+
   const handleSignUpClick = () => navigate("/signup");
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = (e) => {
+    e.preventDefault();
     const redirectUri = encodeURIComponent(
       "http://localhost:5000/api/auth/google-callback"
     );
@@ -147,7 +149,7 @@ function Login() {
                         className="mr-2"
                         type="checkbox"
                         id="rememberMe"
-                        {...register("rememberMe", { required: "Remember me" })}
+                        {...register("rememberMe")}
                       />
                       <label htmlFor="rememberMe">Remember me</label>
                     </div>

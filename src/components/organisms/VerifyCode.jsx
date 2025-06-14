@@ -4,6 +4,8 @@ import FloatingBalloons from "../../assets/floating-ballons.webp";
 import Envelope from "../../assets/envelope-line-icon.svg";
 import ReactCodeInput from "react-code-input";
 import { useNavigate } from "react-router-dom";
+import { verifyAuth } from "../../store/authSlice";
+import { useDispatch } from "react-redux";
 
 function VerifyCode({
   email,
@@ -23,6 +25,7 @@ function VerifyCode({
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleResend = async () => {
     if (resendTimer === 0) {
@@ -33,6 +36,7 @@ function VerifyCode({
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
+            credentials: "include",
           }
         );
         const result = await response.json();
@@ -53,6 +57,10 @@ function VerifyCode({
       const endpoint = isSignIn
         ? "http://localhost:5000/api/auth/signin-verify"
         : "http://localhost:5000/api/auth/verify-code";
+      console.log(`Sending verification to ${endpoint}`, {
+        email,
+        code: data.code,
+      });
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -60,15 +68,24 @@ function VerifyCode({
         credentials: "include",
       });
       const result = await response.json();
+      console.log("Verification response:", result);
 
       if (!response.ok)
         throw new Error(result.message || "Verification failed");
+
+      await dispatch(verifyAuth())
+        .then(() => {
+          console.log("verifyAuth dispatched, checking auth state");
+        })
+        .catch((err) => {
+          console.error("verifyAuth failed:", err);
+        });
 
       if (isSignIn) {
         setTimeout(() => navigate("/"), 2000);
       } else {
         if (result.message === "Sign-up completed successfully") {
-          navigate("../");
+          setTimeout(() => navigate("/"), 2000);
         } else {
           setStep("failed");
         }
@@ -108,7 +125,6 @@ function VerifyCode({
       <p className="w-[60%] h-[22px] text-[#5E5E5E] text-[14px] font-[600]">
         6-digit code
       </p>
-      {/* Code Input Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full px-8 flex flex-col gap-2 items-center"
@@ -162,8 +178,6 @@ function VerifyCode({
           </div>
         </div>
 
-        {/* Reminding the user to check for spam */}
-
         <div className="flex px-2 max-w-[357px] rounded-[4px] bg-[#EAE5E5] h-[55px] mt-2 items-center justify-between border-1 border-[#E4D8D8]">
           <div className="bg-[#484848] px-2 py-2 rounded-[50%] ml-4 flex items-center justify-center mr-1">
             <img src={Envelope} alt="mail" className="w-[32px] stroke-white" />
@@ -184,7 +198,6 @@ function VerifyCode({
         </button>
       </form>
 
-      {/* Resend Code Link */}
       <p className="mt-4 text-center">
         Didn’t receive a code?{" "}
         <span
