@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
+import Sidebar from "../components/organisms/Sidebar";
+import TopNavBar from "../components/organisms/TopNavBar";
+import RightTopNavbar from "../components/molecules/RightTopNavbar";
 
 function Dashboard() {
-  const [data, setData] = useState(null);
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // TO DO : Right now the protected route is located only at dashboard, need to make a general route protection!!!
-
-  const refreshToken = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/refresh-token",
-        {},
-        { withCredentials: true }
-      );
-      console.log("Token refreshed:", response.data.message);
-      return true;
-    } catch (err) {
-      console.error("Refresh error:", err.response?.data || err.message);
-      setError("Session expired. Please log in again.");
-      navigate("/signin");
-      return false;
-    }
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/auth/verify-token",
+          {
+            withCredentials: true,
+            timeout: 5000,
+          }
+        );
+        setUser(response.data.user);
+      } catch (err) {
+        console.error(
+          "Fetch user error:",
+          err.response?.data?.message || err.message
+        );
+        setError("Failed to load user data. Please log in again.");
+        dispatch(logout());
+        navigate("/login");
+      }
+    };
+    fetchUser();
+  }, [navigate, dispatch]);
 
   const handleLogout = async () => {
     try {
@@ -33,62 +44,43 @@ function Dashboard() {
         {},
         { withCredentials: true }
       );
-      console.log("Logout succesful");
-      navigate("/signup");
+      dispatch(logout());
+      navigate("/login");
     } catch (error) {
-      console.log("Logout error: ", error.response?.data || error.message);
+      console.error(
+        "Logout error:",
+        error.response?.data?.message || error.message
+      );
       setError(
-        "Failed to log out: ",
-        +(error.response?.data.message || error.message)
+        "Failed to log out: " + (error.response?.data?.message || error.message)
       );
     }
   };
 
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/auth/", {
-          withCredentials: true,
-        });
-        setData(response.data);
-      } catch (err) {
-        console.error("Dashboard error:", err.response?.data || err.message);
-        if (err.response?.status === 401) {
-          const refreshSuccess = await refreshToken();
-          if (refreshSuccess) {
-            // Retry the dashboard request after successful refresh of the token
-            const retryResponse = await axios.get(
-              "http://localhost:5000/api/auth/",
-              {
-                withCredentials: true,
-              }
-            );
-            setData(retryResponse.data);
-          }
-        } else {
-          setError(
-            "Failed to load dashboard: " +
-              (err.response?.data.message || err.message)
-          );
-        }
-      }
-    };
-    fetchDashboard();
-  }, []);
-
   if (error) return <div>{error}</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!user) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>{data.message}</h1>
-      <p>User ID: {data.user.userId}</p>
-      <button
-        onClick={handleLogout}
-        className="px-2 py-4 bg-[#668F82] text-white rounded-lg cursor-pointer mt-6"
-      >
-        Logout
-      </button>
+    <div className="h-screen w-full flex bg-[#FDF6E1F0]">
+      <Sidebar />
+      <div className="w-full flex flex-col">
+        <div className="w-full flex">
+          <TopNavBar />
+          <RightTopNavbar />
+        </div>
+        <div>
+          <div className="flex flex-col self-center mt-4">
+            <h1>Welcome to VoyageVault</h1>
+            <p>User ID: {user.userId}</p>
+            <button
+              onClick={handleLogout}
+              className="px-2 py-4 bg-[#668F82] text-white rounded-tr-lg cursor-pointer mt-6"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
