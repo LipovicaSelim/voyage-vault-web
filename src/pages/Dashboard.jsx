@@ -71,7 +71,12 @@ function Dashboard() {
         <div>
           <div className="flex flex-col self-center mt-4">
             <h1>Welcome to VoyageVault</h1>
-            <p>User ID: {user.userId}</p>
+            <p>User ID: {user.id}</p>
+            <p>
+              User Full Name: {user.firstName} {user.lastName}
+            </p>
+            <p>User's email: {user.email}</p>
+            <p>User has profile pic: {user.profilePicture ? `Yes` : "No"}</p>
             <button
               onClick={handleLogout}
               className="px-2 py-4 bg-[#668F82] text-white rounded-tr-lg cursor-pointer mt-6"

@@ -10,12 +10,11 @@ export const verifyAuth = createAsyncThunk(
         "http://localhost:5000/api/auth/verify-token",
         {
           withCredentials: true,
-          timeout: 5000,
         }
       );
       console.log("Full verify-token response:", response.data);
       if (response.data.message === "Token is valid") {
-        return { isValid: true, user: response.data.user || {} };
+        return { isValid: true, user: response.data.user };
       } else {
         throw new Error(
           `Unexpected response: ${JSON.stringify(response.data)}`
@@ -68,7 +67,12 @@ const authSlice = createSlice({
     isAuthenticated: false,
     isLoading: true,
     error: null,
-    user: null,
+    user: {
+      firstName: null,
+      lastName: null,
+      email: null,
+      profilePicture: null,
+    },
     tripCount: 0,
   },
   reducers: {
@@ -77,6 +81,9 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.user = null;
+    },
+    updateUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
     },
   },
   extraReducers: (builder) => {
@@ -88,7 +95,12 @@ const authSlice = createSlice({
       .addCase(verifyAuth.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = true;
-        state.user = action.payload.user;
+        state.user = action.payload.user || {
+          firstName: null,
+          lastName: null,
+          email: null,
+          profilePicture: null,
+        };
       })
       .addCase(verifyAuth.rejected, (state, action) => {
         state.isLoading = false;
@@ -98,5 +110,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, resetLoading } = authSlice.actions;
+export const { logout, resetLoading, updateUser } = authSlice.actions;
 export default authSlice.reducer;
