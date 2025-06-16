@@ -34,7 +34,11 @@ function SignUp() {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/signup",
-        { email: data.email },
+        {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+        },
         { withCredentials: true }
       );
       console.log("Signup response:", response.data);
@@ -152,9 +156,7 @@ function SignUp() {
                 buttonText="Sign Up with Google"
                 onClick={handleGoogleSignIn}
               />
-              {err && (
-                <p className="text-red-500 mt-2">{decodeURIComponent(err)}</p>
-              )}
+              {err && <p className="text-red-500">{decodeURIComponent(err)}</p>}
 
               {/* Dividing part with the two borders and the text or in the middle */}
               <div className="BorderswithOrInMiddle flex items-center my-2 w-[80%] justify-center">
@@ -165,9 +167,29 @@ function SignUp() {
               {/*Email input form*/}
               <form
                 onSubmit={handleEmailSubmit(onEmailSubmit)}
-                className="w-full px-[10%] flex flex-col "
+                className="w-full px-[10%] flex flex-col gap-2"
               >
-                <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <div>
+                    <input
+                      {...registerEmail("firstName")}
+                      placeholder="First Name"
+                      className="border-[0.5px] border-gray-400
+            } rounded-md px-4 py-3 w-full focus:outline-none focus:ring-2
+            focus:ring-teal-500 text-sm sm:text-base placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      {...registerEmail("lastName")}
+                      placeholder="Last Name"
+                      className="border-[0.5px] border-gray-400
+            } rounded-md px-4 py-3 w-full focus:outline-none focus:ring-2
+            focus:ring-teal-500 text-sm sm:text-base placeholder-gray-400"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col ">
                   <label
                     htmlFor="email"
                     className="text-gray-700 font-medium"
@@ -193,6 +215,7 @@ function SignUp() {
                         },
                       })}
                     />
+
                     {emailErrors.email && (
                       <p className="text-red-500 text-sm">
                         {emailErrors.email.message}
@@ -200,7 +223,7 @@ function SignUp() {
                     )}
                   </div>
                 </div>
-                <div className="mb-2 flex items-center flex-col items-start">
+                <div className=" flex items-center flex-col items-start">
                   <div>
                     <input
                       className="mr-2"
@@ -210,6 +233,7 @@ function SignUp() {
                         required: "You must agree to the Terms",
                       })}
                     />
+
                     <label>
                       I agree to the{" "}
                       <a
@@ -247,7 +271,7 @@ function SignUp() {
                 </button>
               </form>
               {/* Already have an account */}
-              <p className="mt-2">
+              <p className="">
                 Already have an account?
                 <span
                   onClick={handleLoginClick}

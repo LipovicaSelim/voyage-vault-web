@@ -86,3 +86,13 @@ body {
 .custom-flag-select .flag-select__option {
   padding: 5px 8px;
 }
+
+.ProfilePicture:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.ProfileButtons:hover {
+  opacity: 0.9;
+  transform: scale(1.01);
+}
