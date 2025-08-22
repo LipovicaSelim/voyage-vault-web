@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
 import Sidebar from "../components/organisms/Sidebar";
 import TopNavBar from "../components/organisms/TopNavBar";
 import RightTopNavbar from "../components/molecules/RightTopNavbar";
+import NoTrips from "../components/organisms/NoTrips";
+import CalendarComponent from "../components/organisms/calendar/Partials/Calendar";
+import AddMomentsLayout from "../components/organisms/AddMomentsLayout";
+import NewTripModal from "../components/organisms/NewTripModal";
+import { setTrips } from "../store/tripsSlice";
+import TripLayout from "../components/organisms/TripLayout";
 
 function Dashboard() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const trips = useSelector((state) => state.trips.list) || [];
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,6 +34,14 @@ function Dashboard() {
           }
         );
         setUser(response.data.user);
+
+        const tripRes = await axios.get(
+          "http://localhost:5000/api/trips/getTrips",
+          {
+            withCredentials: true,
+          }
+        );
+        dispatch(setTrips(tripRes.data.trips));
       } catch (err) {
         console.error(
           "Fetch user error:",
@@ -34,6 +52,7 @@ function Dashboard() {
         navigate("/login");
       }
     };
+
     fetchUser();
   }, [navigate, dispatch]);
 
@@ -61,31 +80,51 @@ function Dashboard() {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="h-screen w-full flex bg-[#FDF6E1F0]">
-      <Sidebar />
+    <div className="h-auto w-full flex bg-[#FDF6E1F0]">
+      {/* Sidebar always visible */}
+      <Sidebar setIsModalOpen={setIsModalOpen} />
+
+      {/* Main content area */}
       <div className="w-full flex flex-col">
-        <div className="w-full flex">
+        {/* Top navigation */}
+        <div className="TopNavbar w-full flex">
           <TopNavBar />
           <RightTopNavbar />
         </div>
-        <div>
-          <div className="flex flex-col self-center mt-4">
-            <h1>Welcome to VoyageVault</h1>
-            <p>User ID: {user.id}</p>
-            <p>
-              User Full Name: {user.firstName} {user.lastName}
-            </p>
-            <p>User's email: {user.email}</p>
-            <p>User has profile pic: {user.profilePicture ? `Yes` : "No"}</p>
-            <button
-              onClick={handleLogout}
-              className="px-2 py-4 bg-[#668F82] text-white rounded-tr-lg cursor-pointer mt-6"
-            >
-              Logout
-            </button>
-          </div>
+
+        {/* Main view below nav */}
+        <div className="w-full flex justify-between px-4">
+          {/* If there are no trips, show NoTrips and AddMomentsLayout */}
+          {trips.length === 0 ? (
+            <>
+              <div className="flex flex-col">
+                <NoTrips className="w-3/5" />
+                <AddMomentsLayout />
+                <button
+                  onClick={handleLogout}
+                  className="px-2 py-4 bg-[#668F82] text-white rounded-tr-lg cursor-pointer mt-6"
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="w-[64%] flex flex-col justify-center items-center py-12 text-[#3B260E] text-lg font-medium">
+                <TripLayout />
+              </div>
+              <CalendarComponent
+                date={date}
+                setDate={setDate}
+                selectRange={false}
+              />
+            </>
+          )}
         </div>
       </div>
+
+      {/* Trip creation modal */}
+      <NewTripModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
   );
 }

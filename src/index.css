@@ -2,9 +2,8 @@
 @import "tailwindcss";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
+@import "leaflet/dist/leaflet.css";
 
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
 @theme {
@@ -23,7 +22,7 @@ body {
 }
 
 .nav-link:active {
-  background-color: red;
+  background-color: #44695e;
 }
 
 .new-trip-btn {
@@ -95,4 +94,31 @@ body {
 .ProfileButtons:hover {
   opacity: 0.9;
   transform: scale(1.01);
+}
+
+.sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.TopNavbar {
+  position: sticky;
+  top: 0;
+  /* opacity: 0.5; */
+}
+
+#«r1» {
+  cursor: pointer;
+}
+
+.NewTripInput::placeholder {
+  color: #144141;
+  font-size: 16px;
+  height: 45px;
+  font-size: 24px !important;
+}
+
+.NewTripInput {
+  font-size: 24px !important;
 }

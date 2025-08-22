@@ -7,6 +7,9 @@ import Modal from "react-modal";
 import axios from "axios";
 import { updateUser } from "../../store/authSlice";
 import ChangeProfileModal from "../organisms/ChangeProfileModal";
+import { FiChevronDown } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../store/authSlice";
 
 Modal.setAppElement("#root");
 
@@ -18,6 +21,22 @@ function RightTopNavbar() {
   const [editFirstName, setEditFirstName] = useState(firstName || "");
   const [editLastName, setEditLastName] = useState(lastName || "");
   const [editProfilePicture, setEditProfilePicture] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+      dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error.message);
+    }
+  };
 
   const profilePicUrl = profilePicture
     ? profilePicture.startsWith("http")
@@ -60,18 +79,44 @@ function RightTopNavbar() {
       </div>
       <div className="ml-4 text-sm text-[#27292C] font-medium flex items-center">
         {firstName && lastName ? `${firstName} ${lastName}` : "User"}
-        <div
-          className="relative w-9 h-9 ml-4"
-          onClick={() => setIsModalOpen(true)}
-        >
-          {profilePicUrl && (
-            <img
-              src={profilePicUrl}
-              alt={`${firstName} ${lastName}'s profile`}
-              className="ProfilePicture w-full h-full rounded-full object-cover ring-1 ring-black"
-            />
-          )}
-          <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-600 ring-2 ring-white"></span>
+        <div className="relative ml-4">
+          <div className="relative ml-4">
+            <div
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="cursor-pointer flex items-center gap-2"
+            >
+              <div className="relative w-9 h-9">
+                <img
+                  src={profilePicUrl}
+                  alt={`${firstName} ${lastName}'s profile`}
+                  className="w-full h-full rounded-full object-cover ring-1 ring-black"
+                />
+                <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-600 ring-2 ring-white"></span>
+              </div>
+              <FiChevronDown className="text-[#383737]" />
+            </div>
+
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded shadow-md z-50 ">
+                <button
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setShowDropdown(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-[#383737] cursor-pointer"
+                >
+                  Profile
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 cursor-pointer"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+
           <Modal
             isOpen={isModalOpen}
             onRequestClose={() => setIsModalOpen(false)}
