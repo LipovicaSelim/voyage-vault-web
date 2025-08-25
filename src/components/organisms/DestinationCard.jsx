@@ -7,8 +7,8 @@ function DestinationCard() {
   const activeTrip = useSelector((state) => state.trips.activeTrip);
   console.log("Active Trip details: ", activeTrip);
   return (
-    <div className="w-[300px] h-[158px] rounded-2xl bg-white font-['Sora'] mb-4">
-      <div className="flex justify-around items-center mt-4 mb-1">
+    <div className="w-[40%] max-w-[400px] h-[158px]  rounded-2xl bg-white font-['Sora'] mb-4">
+      <div className="flex justify-between px-6 items-center mt-4 mb-1">
         <p className="text-lg text-[#9aa2ac]">Destination</p>
         <BsThreeDotsVertical />
       </div>

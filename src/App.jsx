@@ -7,6 +7,9 @@ import Dashboard from "../src/pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RedirectIfAuthenticated from "./components/RedirectIfAuthenticated";
 import { verifyAuth } from "./store/authSlice";
+import Attractions from "./pages/Attractions";
+import AllTrips from "./pages/AllTrips";
+import Transport from "./pages/Transport";
 
 const AppContent = () => {
   const dispatch = useDispatch();
@@ -61,6 +64,30 @@ const AppContent = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/attractions"
+        element={
+          <ProtectedRoute>
+            <Attractions />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/all-trips"
+        element={
+          <ProtectedRoute>
+            <AllTrips />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/transport"
+        element={
+          <ProtectedRoute>
+            <Transport />
           </ProtectedRoute>
         }
       />

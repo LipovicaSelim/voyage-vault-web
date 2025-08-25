@@ -1,12 +1,14 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import tripsReducer from "./tripsSlice";
+import weatherReducer from "./weatherSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   trips: tripsReducer,
+  weather: weatherReducer,
 });
 
 const persistConfig = {

@@ -25,7 +25,7 @@ function FlightCard() {
     ) || [];
   return (
     <div
-      className="relative w-[360px] h-[348px] bg-cover bg-center rounded-3xl overflow-hidden shadow-md px-4"
+      className="relative w-[45%] max-w-[560px] h-[348px] bg-cover bg-center rounded-3xl overflow-hidden shadow-md px-4"
       style={{ backgroundImage: `url(${FlightTicket})` }}
     >
       <div className=" text-black text-2xl font-semibold mt-6 flex justify-between mb-4">

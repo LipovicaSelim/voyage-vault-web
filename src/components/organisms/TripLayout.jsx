@@ -27,7 +27,7 @@ function TripLayout() {
           className="max-w-[400px] h-auto object-contain self-start "
         />
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 w-full">
         <TravelDate />
         <PeopleCard />
         <DestinationCard />
