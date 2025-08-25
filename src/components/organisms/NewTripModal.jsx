@@ -169,8 +169,8 @@ function NewTripModal({ isModalOpen, setIsModalOpen }) {
         <IoInformationCircleOutline size={64} />
         {
           <p className="text-sm text-[#9B9286]">
-            Upload the .eml or .msg file (Download from Gmail: More > Download
-            original, or Outlook: File > Save As)
+            Upload the .eml or .msg file (Download from Gmail: More  Download
+            original, or Outlook: File  Save As)
           </p>
         }
       </div>
