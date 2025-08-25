@@ -112,6 +112,10 @@ body {
   cursor: pointer;
 }
 
+#«r3» {
+  cursor: pointer;
+}
+
 .NewTripInput::placeholder {
   color: #144141;
   font-size: 16px;
@@ -121,4 +125,8 @@ body {
 
 .NewTripInput {
   font-size: 24px !important;
+}
+
+button[data-testid="flowbite-dropdown-button"] {
+  cursor: pointer !important;
 }

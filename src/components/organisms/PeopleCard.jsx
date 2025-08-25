@@ -24,9 +24,9 @@ function PeopleCard() {
   //   console.log("Members: ", members);
 
   return (
-    <div className="w-[220px] h-[158px] rounded-2xl bg-white font-['Sora'] mb-4">
+    <div className="w-[30%] max-w-[300px] h-[158px] rounded-2xl bg-white font-['Sora'] mb-4 pl-2">
       <div className="mt-4 flex flex-col ">
-        <div className="flex justify-around items-center mb-2">
+        <div className="flex justify-between px-6 items-center mb-2">
           <p className="text-lg text-[#9aa2ac]">People</p>
           <BsThreeDotsVertical />
         </div>
@@ -38,29 +38,33 @@ function PeopleCard() {
             </span>
           </span>
         </div>
-        <div className="self-center flex">
-          {/* Other members as circles with initials */}
-          {otherMembers.map((member, index) => (
-            <div
-              key={index}
-              className="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#F2EAD3] text-[#3B260E] font-semibold text-sm ring-2 ring-[#e4b749]"
-              title={member}
-            >
-              {member[0]}
-            </div>
-          ))}
-          <img
-            src={profilePicture}
-            alt={firstName}
-            className="w-[32px] h-[32px] rounded-[50%] mr-2 -ml-2 outline-white outline-4"
-          />
-          <div className="mt-2 text-center text-sm text-[#3B260E] font-medium">
-            {members.map((member, index) => (
-              <span key={index}>
-                {member.split(" ")[0]}
-                {index < members.length - 1 ? ", " : ""}
-              </span>
+        <div className="self-center flex items-center w-full">
+          <div className="flex w-[50%]">
+            {/* Other members as circles with initials */}
+            {otherMembers.map((member, index) => (
+              <div
+                key={index}
+                className="w-[28px] h-[28px] flex items-center justify-center rounded-full bg-[#F2EAD3] text-[#3B260E] font-semibold text-sm ring-2 ring-[#e4b749]"
+                title={member}
+              >
+                {member[0]}
+              </div>
             ))}
+            <img
+              src={profilePicture}
+              alt={firstName}
+              className="w-[28px] h-[28px] rounded-full mr-2 -ml-2 outline-white outline-4"
+            />
+          </div>
+          <div className="w-[50%] flex">
+            <div className="mt-2 text-center text-sm text-[#3B260E] font-medium">
+              {members.map((member, index) => (
+                <span key={index}>
+                  {member.split(" ")[0]}
+                  {index < members.length - 1 ? ", " : ""}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>

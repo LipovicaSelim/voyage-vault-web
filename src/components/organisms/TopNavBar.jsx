@@ -16,10 +16,10 @@ function TopNavBar() {
   };
 
   return (
-    <div className="w-[70%] h-[70px]  flex items-center font-['Sora'] ">
+    <div className="w-[70%] h-[70px]  flex items-center font-['Sora']">
       <div className="w-full h-full flex items-center ml-16 border-b-[0.5px] border-b-[#d7d8d9]">
         <div className="text-[#27292C] text-[16px] flex w-full h-full items-center ml-4 cursor-pointer">
-          <Dropdown label="Travels" inline size="lg">
+          <Dropdown label="Travels" inline size="lg" className="cursor-pointer">
             {trips && trips.length > 0 ? (
               trips.map((trip, index) => (
                 <DropdownItem

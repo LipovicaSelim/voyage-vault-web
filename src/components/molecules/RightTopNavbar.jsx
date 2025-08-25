@@ -77,8 +77,10 @@ function RightTopNavbar() {
         <IoNotificationsOutline size={24} stroke="#212121" />
         <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-white"></span>
       </div>
-      <div className="ml-4 text-sm text-[#27292C] font-medium flex items-center">
-        {firstName && lastName ? `${firstName} ${lastName}` : "User"}
+      <div className="ml-2 text-sm text-[#27292C] font-medium flex items-center">
+        <div className="w-full">
+          {firstName && lastName ? `${firstName} ${lastName}` : "User"}
+        </div>
         <div className="relative ml-4">
           <div className="relative ml-4">
             <div

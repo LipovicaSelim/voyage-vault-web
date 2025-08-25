@@ -28,8 +28,8 @@ function TravelDate() {
   //   console.log("Trips from Travel Date", activeTrip);
 
   return (
-    <div className="w-[220px] h-[158px] rounded-2xl bg-white font-['Sora'] ">
-      <div className="flex justify-around items-center mt-4 mb-2">
+    <div className="w-[30%] max-w-[320px] h-[158px] rounded-2xl bg-white font-['Sora'] ">
+      <div className="flex justify-between px-6 items-center mt-4 mb-2">
         <p className="text-lg text-[#9aa2ac]">Travel date</p>
         <BsThreeDotsVertical />
       </div>

@@ -59,35 +59,40 @@ const Sidebar = ({ setIsModalOpen }) => {
           </button>
         )}
         <ul className="w-full items-start justify-center flex flex-col gap-2">
-          {navItems.map((item) => (
-            <li
-              key={item.path}
-              className="flex items-center justify-start w-full h-[51px]"
-            >
-              <Link
-                to={item.path}
-                className={`nav-link flex w-full h-full items-center duration-100 ease-in ${
-                  isCollapsed ? "justify-center" : "pl-12"
-                }`}
-                aria-label={item.label}
-                title={item.label}
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <li
+                key={item.path}
+                className={`flex items-center justify-start w-full h-[51px] ${
+                  isActive ? "bg-[#2C5C53]" : ""
+                } `}
               >
-                <img
-                  src={item.icon}
-                  alt={item.label}
-                  className="pr-4 w-[40px] h-auto max-h-[70%]"
-                />
-                {!isCollapsed && (
-                  <span className="label text-xl font-semibold text-[#DDE5D6]">
-                    {item.label}{" "}
-                    {item.badge > 0 && (
-                      <span className="badge">{item.badge}</span>
-                    )}
-                  </span>
-                )}
-              </Link>
-            </li>
-          ))}
+                <Link
+                  to={item.path}
+                  className={`nav-link flex w-full h-full items-center duration-100 ease-in ${
+                    isCollapsed ? "justify-center" : "pl-12"
+                  }`}
+                  aria-label={item.label}
+                  title={item.label}
+                >
+                  <img
+                    src={item.icon}
+                    alt={item.label}
+                    className="pr-4 w-[40px] h-auto max-h-[70%]"
+                  />
+                  {!isCollapsed && (
+                    <span className="label text-xl font-semibold text-[#DDE5D6]">
+                      {item.label}{" "}
+                      {item.badge > 0 && (
+                        <span className="badge">{item.badge}</span>
+                      )}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
